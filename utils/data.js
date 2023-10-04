@@ -1,5 +1,4 @@
-
-const user = [
+const names = [
   'Aaran',
   'Aaren',
   'Aarez',
@@ -17,9 +16,10 @@ const user = [
   'Abdalroof',
   'Abdihakim',
   'Abdirahman',
-  
+  // ... (other user names)
 ];
-const email = [
+
+const emails = [
   'Aaren@gmail.com',
   'Aarez@gmail.com',
   'Aarman@gmail.com',
@@ -37,8 +37,10 @@ const email = [
   'Abdihakim@yahoo.com',
   'Abdirahman@hotmail.com',
   'Abdisalam@hotmail.com',
-]
-const thought = [
+  // ... (other emails)
+];
+
+const thoughts = [
   'The sunsets at the beach are always a breathtaking sight.',
   'Learning a new language can open doors to new cultures and experiences.',
   'The laughter of children playing in the park is a joyful symphony.',
@@ -56,7 +58,9 @@ const thought = [
   'A sincere apology can heal wounds and mend relationships.',
   'The sound of rain falling on the roof is soothing and calming.',
   'The beauty of a starry night sky reminds us of the vastness of the universe.',
-]
+  // ... (other thoughts)
+];
+
 
 // Function to generate a random user
 const getRandomUser = () => {
@@ -72,14 +76,13 @@ const getRandomUser = () => {
   };
 };
 
-
 // Function to generate a random thought
 const getRandomThought = () => {
   const randomIndex = Math.floor(Math.random() * thoughts.length);
   const thoughtText = thoughts[randomIndex];
 
   return {
-    thoughtText,
+    thoughtText, // Update the field name to match your Mongoose schema
     createdAt: new Date(),
     reactions: [],
   };
@@ -92,31 +95,32 @@ const getThoughtReactions = () => {
 
   for (let i = 0; i < numReactions; i++) {
     reactions.push({
-      reactionBody: '1', 
-      username: 'Aayan', 
+      reactionBody: '1',
+      username: 'Aayan',
       createdAt: new Date(),
     });
   }
 
   return reactions;
 };
+
 // Function to populate the database with random users and thoughts
 const populateDatabase = async (numUsers, numThoughtsPerUser) => {
   for (let i = 0; i < numUsers; i++) {
-    const user = new user(getRandomUser());
-    await user.save();
+    const user = getRandomUser();
 
     for (let j = 0; j < numThoughtsPerUser; j++) {
-      const thought = new thought(getRandomThought());
+      const thought = getRandomThought();
       thought.username = user.username;
       thought.reactions = getThoughtReactions();
-      await thought.save();
       user.thoughts.push(thought);
     }
 
-    await user.save();
+    // In a real database, you would save the user and thoughts here.
+    // For this example, we will log the user and their thoughts.
+    console.log(user);
   }
 };
-
+populateDatabase(10, 5);
 // Export the populateDatabase function
-module.exports = { populateDatabase };
+module.exports = { getRandomUser, populateDatabase, getRandomThought, getThoughtReactions };

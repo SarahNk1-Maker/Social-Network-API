@@ -27,7 +27,7 @@ connection.once('open', async () => {
 
     for (let i = 0; i < 20; i++) {
       const user = getRandomUser(); // Generate a random user
-      const thought = getRandomThought(10);
+      const thought = getRandomThought(); // Generate a random thought
       thought.username = user.username; // Set the thought's username to match the user
       thoughts.push(thought);
     }
@@ -44,4 +44,5 @@ connection.once('open', async () => {
     process.exit(1);
   }
 });
+
 
