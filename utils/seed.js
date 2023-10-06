@@ -1,3 +1,4 @@
+Seed.js
 const connection = require('../config/connection');
 const { User, Thought } = require('../models');
 const { getRandomUser, getRandomThought } = require('./data');
